@@ -9,7 +9,7 @@ export function getTodos() {
     })
 }
 
-export function getTodo(id: number) {
+export function getTodo(id: string) {
     return createQuery<ToDo, Error>({
         queryKey: ['todo', id],
         queryFn: () => getToDo(id)

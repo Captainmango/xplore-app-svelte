@@ -1,16 +1,16 @@
 <script lang="ts">
-    import { getTodos } from "../data/queries";
     import { useNavigate } from "svelte-navigator";
+    import StatusSwitcher from "./StatusSwitcher.svelte";
+    import { paginate, LightPaginationNav } from 'svelte-paginate'
 
-    const todos = getTodos()
+    export let todos = []
+    let pageSize = 10
+    let currentPage= 1
+
     const navigate = useNavigate()
+    $: paginatedTodos = paginate({items: todos, pageSize, currentPage})
 </script>
 
-{#if $todos.status === 'loading'}
-<span>Loading...</span>
-{:else if $todos.status === 'error'}
-<span>Error: {$todos.error.message}</span>
-{:else}
 <table>
     <thead>
         <th style="width:100px;">
@@ -27,17 +27,27 @@
         </th>
     </thead>
     <tbody>
-        {#each $todos.data as todo}
-            <tr on:click={() => navigate(`${todo.id}`)}>
-                <td>{todo.userId}</td>
-                <td>{todo.id}</td>
-                <td>{todo.title}</td>
-                <td>{todo.completed ? '✅' : '❌'}</td>
+        {#each paginatedTodos as todo}
+            <tr>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <td on:click={() => navigate(`${todo.id}`)}>{todo.userId}</td>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <td on:click={() => navigate(`${todo.id}`)}>{todo.id}</td>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <td on:click={() => navigate(`${todo.id}`)}>{todo.title}</td>
+                <td><StatusSwitcher todo={todo} /></td>
             </tr>
         {/each}
     </tbody>
 </table>
-{/if}
+<LightPaginationNav
+  totalItems="{todos.length}"
+  pageSize="{pageSize}"
+  currentPage="{currentPage}"
+  limit="{1}"
+  showStepOptions="{true}"
+  on:setPage="{(e) => currentPage = e.detail.page}"
+/>
 
 <style>
     tr:hover {

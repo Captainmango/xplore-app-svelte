@@ -1,8 +1,9 @@
 <script lang="ts">
     import { getTodo } from "../data/queries";
     import PublicLayout from "./layouts/PublicLayout.svelte";
+    import StatusSwitcher from "./StatusSwitcher.svelte";
 
-    export let id
+    export let id: string
 
     const todo = getTodo(id)
 
@@ -16,7 +17,7 @@
     {:else}
         <article>
             <h1>{$todo.data.title}</h1>
-            <h3>{$todo.data.completed ? '✅' : '❌'}</h3>
+            <h3><StatusSwitcher todo={$todo.data} /></h3>
         </article>
     {/if}
 </PublicLayout>
