@@ -1,5 +1,5 @@
-import { createQuery } from '@tanstack/svelte-query'
-import { getToDo, getToDos } from './api'
+import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query'
+import { createTodoApi, getToDo, getToDos } from './api'
 import type { ToDo } from './types'
 
 export function getTodos() {
@@ -12,6 +12,20 @@ export function getTodos() {
 export function getTodo(id: string) {
     return createQuery<ToDo, Error>({
         queryKey: ['todo', id],
-        queryFn: () => getToDo(id)
+        queryFn: () => getToDo(id),
     })
+}
+
+export function createTodo() {
+    const client = useQueryClient()
+    return createMutation(
+        (todo: ToDo) => createTodoApi(todo),
+        {
+            onSuccess: (vals) => {
+                client.invalidateQueries(['todos'])
+                client.refetchQueries(['todos'])
+                console.log(vals)
+            }
+        }
+    )
 }

@@ -21,3 +21,9 @@ export async function getToDo(id: string) {
     const json = response.data as ToDo
     return json
 }
+
+export async function createTodoApi(todo: ToDo) {
+    const response = await api.post(`${rootUrl}todos`, todo)
+    const json = response.data
+    return json
+}

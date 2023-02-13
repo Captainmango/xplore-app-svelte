@@ -5,6 +5,7 @@
     import MainPage from './lib/components/MainPage.svelte';
     import TodosPage from './lib/components/TodosPage.svelte';
     import TodoPage from './lib/components/TodoPage.svelte';
+    import NewTodoPage from './lib/components/NewTodoPage.svelte';
 
     const queryClient = new QueryClient()
 </script>
@@ -32,7 +33,8 @@
             <Route path="/"><MainPage /></Route>
             <Route path="/about"><AboutPage /></Route>
             <Route path="/todos"><TodosPage /></Route>
-            <Route path="/todos/:id" let:params><TodoPage id={params.id} /></Route>    
+            <Route path="/todos/:id" let:params><TodoPage id={params.id} /></Route>
+            <Route path="/todos/create" ><NewTodoPage /></Route>     
         </Router>
     </main>
 </QueryClientProvider>

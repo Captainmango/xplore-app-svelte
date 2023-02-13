@@ -22,7 +22,10 @@
     "vite": "^4.1.0"
   },
   "dependencies": {
+    "@felte/validator-yup": "^1.0.11",
     "@tanstack/svelte-query": "^4.24.4",
-    "axios": "^1.3.2"
+    "axios": "^1.3.2",
+    "felte": "^1.2.7",
+    "yup": "^0.32.11"
   }
 }
