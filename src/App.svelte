@@ -14,7 +14,7 @@
 <QueryClientProvider client={queryClient}>
     <main class="main">
         <figure>
-            <img src="public\brand.svg" alt="xplore logo" style="min-height: 80px;">
+            <img src="\brand.svg" alt="xplore logo" style="min-height: 80px;">
         </figure>
 
         <Router primary={false}>

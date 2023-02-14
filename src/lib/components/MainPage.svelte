@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { authStore } from "../data/store";
     import PublicLayout from "./layouts/PublicLayout.svelte";
 
     function stuff() {
@@ -12,6 +13,8 @@
     <p>
         This is Spooderman, he's going to tell you what to do. Click him and find out what he wants...
     </p>
+
+    <button on:click|preventDefault={() => authStore.signIn()}>Sign up</button>
 </PublicLayout>
 
 <style>
