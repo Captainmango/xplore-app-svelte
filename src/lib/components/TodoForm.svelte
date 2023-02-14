@@ -15,7 +15,7 @@
     const { form, errors, reset } = createForm({
         extend: validator({schema: todoSchema}),
         onSubmit: (values) => {
-            const unsubscribe = mutation.subscribe(o => {
+            const unsubscribe = mutation.subscribe(async o => {
                 o.mutate(values)
             })
             reset()
@@ -23,28 +23,33 @@
         }
     });
 </script>
-
+<section style="width:360px;">
+<article>
 <form use:form on:submit|preventDefault>
-    <div>
+    <fieldset>
         <label for="title">
             Title
-        </label>        
+        </label>     
+        <input type="text" name="title" id="title" />   
         {#if $errors.title}<li class="error">{$errors.title}</li>{/if}
-    </div>
-    <input type="text" name="title" id="title" />
+    </fieldset>
+ 
 
-    <div>
+    <fieldset>
         <label for="completed">
             Completed?
         </label>
+        <input type="checkbox" name="completed" />
         {#if $errors.completed}<li class="error">{$errors.completed}</li>{/if}
-    </div>
-    <input type="checkbox" name="completed" />
-    
-    <div>
+
+    </fieldset>
+
+    <fieldset>
         <button type="submit">Submit</button>
-    </div>
+    </fieldset>
 </form>
+</article>
+</section>
 
 <style>
     label {
