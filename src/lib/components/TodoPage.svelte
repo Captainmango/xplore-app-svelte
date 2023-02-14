@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { navigate } from "svelte-navigator";
     import { deleteTodo, getTodo } from "../data/queries";
     import PublicLayout from "./layouts/PublicLayout.svelte";
     import StatusSwitcher from "./StatusSwitcher.svelte";
@@ -16,15 +17,19 @@
     {:else if $todo.status === 'error'}
     <span>Error: {$todo.error.message}</span>
     {:else}
-        <article>
-            <h1>{$todo.data.title}</h1>
-            <h3><StatusSwitcher todo={$todo.data} /></h3>
+        <section>
+            <h1>{$todo.data.title} <StatusSwitcher todo={$todo.data} /></h1>
             <fieldset>
-                <button class="delete" on:click|preventDefault|stopPropagation={() => $deleteTodoMutation.mutate(id)}>
+                <button class="delete" 
+                    on:click|preventDefault|stopPropagation={() => $deleteTodoMutation.mutate(id)}
+                >
                     Delete
                 </button>
+                <button type="submit" on:click|preventDefault|stopPropagation={() => navigate(`${id}/update`)}>
+                    Update
+                </button>
             </fieldset>
-        </article>
+        </section>
     {/if}
 </PublicLayout>
 
@@ -33,7 +38,6 @@
         cursor: pointer;
         background-color: crimson;
         color: whitesmoke;
-        transition: all 0.15s ease-in-out;
     }
 
     .delete:hover {

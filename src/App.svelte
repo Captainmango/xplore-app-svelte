@@ -6,6 +6,7 @@
     import TodosPage from './lib/components/TodosPage.svelte';
     import TodoPage from './lib/components/TodoPage.svelte';
     import NewTodoPage from './lib/components/NewTodoPage.svelte';
+    import UpdateTodoPage from './lib/components/UpdateTodoPage.svelte';
 
     const queryClient = new QueryClient()
 </script>
@@ -34,7 +35,8 @@
             <Route path="/about"><AboutPage /></Route>
             <Route path="/todos"><TodosPage /></Route>
             <Route path="/todos/:id" let:params><TodoPage id={params.id} /></Route>
-            <Route path="/todos/create" ><NewTodoPage /></Route>     
+            <Route path="/todos/create" ><NewTodoPage /></Route>
+            <Route path="/todos/:id/update" let:params><UpdateTodoPage id={params.id} /></Route>     
         </Router>
     </main>
 </QueryClientProvider>

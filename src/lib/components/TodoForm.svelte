@@ -2,17 +2,22 @@
     import { createForm } from "felte";
     import { validator } from "@felte/validator-yup";
     import * as yup from "yup";
-    import { createTodo } from "../data/queries";
-    import type { ToDo } from "../data/types";
+    import type { CreateMutationResult } from "@tanstack/svelte-query";
 
     const todoSchema = yup.object({
         title: yup.string().required(),
-        completed: yup.boolean().required().equals([false]),
+        completed: yup.boolean().required(),
     })
 
-    const mutation = createTodo()
+    export let mutation: CreateMutationResult
+    export let initialTitle: string = ""
+    export let initialCompleted: boolean = false
 
     const { form, errors, reset } = createForm({
+        initialValues: {
+            title: initialTitle,
+            completed: initialCompleted
+        },
         extend: validator({schema: todoSchema}),
         onSubmit: (values) => {
             const unsubscribe = mutation.subscribe(async o => {
@@ -34,7 +39,6 @@
         {#if $errors.title}<li class="error">{$errors.title}</li>{/if}
     </fieldset>
  
-
     <fieldset>
         <label for="completed">
             Completed?

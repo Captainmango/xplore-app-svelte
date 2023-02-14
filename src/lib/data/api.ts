@@ -30,3 +30,9 @@ export async function deleteTodoApi(todoId: string) {
     const json = response.data
     return json
 }
+
+export async function patchTodoApi(todoId: string, todo: ToDo) {
+    const response = await api.patch(`${rootUrl}todos/${todoId}`, todo)
+    const json = response.data
+    return json
+}

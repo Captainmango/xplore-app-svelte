@@ -1,6 +1,6 @@
 import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query'
 import { useNavigate } from 'svelte-navigator'
-import { createTodoApi, getToDo, getToDos, deleteTodoApi } from './api'
+import { createTodoApi, getToDo, getToDos, deleteTodoApi, patchTodoApi } from './api'
 import type { ToDo } from './types'
 
 export function getTodos() {
@@ -36,6 +36,21 @@ export function deleteTodo(todoId: string) {
     const navigate = useNavigate()
     return createMutation(
         (todoId: string) => deleteTodoApi(todoId),
+        {
+            onSuccess: () => {
+                client.invalidateQueries(['todo', todoId])
+                client.invalidateQueries(['todos'])
+                navigate('/todos')
+            }
+        }
+    )
+}
+
+export function updateTodo(todoId: string) {
+    const client = useQueryClient()
+    const navigate = useNavigate()
+    return createMutation(
+        (todo: ToDo) => patchTodoApi(todoId, todo),
         {
             onSuccess: () => {
                 client.invalidateQueries(['todo', todoId])
